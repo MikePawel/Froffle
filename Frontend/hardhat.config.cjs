@@ -1,22 +1,19 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
+require('dotenv').config();
 
-INFURA_API_KEY = ""
-
-PRIVATE_KEY = ""
-
-ETHERSCAN_API_KEY = ""
+const { INFURA_API_KEY, PRIVATE_KEY } = process.env;
 
 module.exports = {
   solidity: "0.8.24",
   networks: {
-    mumbai: {
-      url: `${INFURA_API_KEY}`,
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [PRIVATE_KEY],
     },
   },
   etherscan: {
-    apiKey: ETHERSCAN_API_KEY,
+   // apiKey: ETHERSCAN_API_KEY,
   },
 };
 

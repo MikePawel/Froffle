@@ -29,7 +29,7 @@ app.post("/verify", async (req, res) => {
       reqBody.signal < timestampInSeconds - 300 &&
       reqBody.signal < timestampInSeconds
     ) {
-      throw new Error("The signal is onlder than 5 minutes");
+      throw new Error("The signal is onlder than 5 minute");
     }
     // console.log('Received verification request:', reqBody);
 
