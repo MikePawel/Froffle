@@ -8,7 +8,7 @@ module.exports = {
   solidity: "0.8.24",
   networks: {
     sepolia: {
-      url: `${INFURA_API_KEY}`,
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [PRIVATE_KEY],
     },
   },
