@@ -15,11 +15,26 @@
 
 .achievement {
     border-radius: 999px;
-    width: 80px;
-    height: 80px;
+    width: 140px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+}
+
+.grayscale {
+    filter: grayscale();
+}
+
+.achievement-infos {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 180px;
+    align-items: center;
+}
+
+.achievement-infos .description {
+    text-align: center;
 }
 
