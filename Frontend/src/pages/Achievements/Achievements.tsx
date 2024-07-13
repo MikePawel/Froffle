@@ -3,8 +3,8 @@ import './Achievements.css'
 import { Link } from 'react-router-dom'
 import { CircularProgress } from '@mui/material'
 import Badge from '~/components/Badge/Badge'
-import { useMetaMask } from '~/hooks/useMetaMask'
 import { useQuery } from 'react-query'
+import { useAccount } from 'wagmi'
 
 type Stats = any;
 
@@ -25,7 +25,7 @@ type Achievement = {
   progress: (stats: Stats) => string;
 }
 
-const statsQueryFn = async (account_id: string) => {
+const statsQueryFn = async (account_id?: string) => {
   account_id = '0x889befc77295680009ea41ecf3aa676bd7a8ad9b'
 
   if (!account_id)
@@ -64,7 +64,7 @@ const tracks: Record<string, Track> = {
     },
     achievements: [
       {
-        icon: 'timer_5',
+        icon: 'timer_5_shutter',
         description: 'Hold 5 or more NFTs',
         track: 'txs_sent',
         done: (stats: Stats) => Object.keys(stats[1].items).length > 5,
@@ -105,12 +105,12 @@ const tracks: Record<string, Track> = {
 }
 
 export default function Achievements() {
-  const { wallet } = useMetaMask()
-  const statsQuery = useQuery({ queryFn: () => statsQueryFn(wallet.accounts[0]), queryKey: ['stats-query'] }) 
+  const { address } = useAccount()
+  const statsQuery = useQuery({ queryFn: () => statsQueryFn(address), queryKey: ['stats-query'] }) 
 
   return (
     <div className="achievements-page">
-      {wallet.accounts.length > 0 && (
+      {!!address && (
         <>
           <div className="title">Your Achievements</div>
           <div className="achievements-container">
@@ -137,8 +137,8 @@ export default function Achievements() {
                         {a.icon}
                       </span>
                     </Badge>
-                    <strong className='progress'>{a.progress(statsQuery.data)}</strong>
-                    <div className='description'>{a.description}</div>
+                    <strong className="progress">{a.progress(statsQuery.data)}</strong>
+                    <div className="description">{a.description}</div>
                   </div>
                 ))
               }).flat()
