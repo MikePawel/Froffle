@@ -5,8 +5,9 @@ import { Navigation } from './components/Navigation'
 import { Display } from './components/Display'
 import { MetaMaskError } from './components/MetaMaskError'
 import { MetaMaskContextProvider } from './hooks/useMetaMask'
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route } from 'react-router-dom'
 import Test from './pages/Test/Test'
+import Archievements from './pages/Archievements/Archievements'
 
 export const App = () => {
 
@@ -15,8 +16,9 @@ export const App = () => {
       <div className={styles.appContainer}>
         <Navigation />
         <Routes>
-          <Route path='/test' element={<Test />} />
-          <Route path='/' element={<Display />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/archievements" element={<Archievements />} />
+          <Route path="/" element={<Display />} />
         </Routes>
         <MetaMaskError />
       </div>

@@ -1,0 +1,25 @@
+.archievements-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.archievements-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 20px;
+    gap: 20px;
+}
+
+.archievement {
+    border-radius: 999px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transform: scale(1.5);
+}

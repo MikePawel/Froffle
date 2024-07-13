@@ -18,6 +18,7 @@ export const Display = () => {
         </>
       }
       <Link to="/test">Go to testpage</Link>
+      <Link to="/archievements">Go to archievements page</Link>
     </div>
   )
 }
