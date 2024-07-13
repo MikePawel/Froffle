@@ -9,7 +9,7 @@ export const Navigation = () => {
   return (
     <div className={styles.navigation}>
       <div className={styles.flexContainer}>
-        <div className={styles.leftNav}>App Title</div>
+        <div className={styles.leftNav}>ETHchievments</div>
         <div className={styles.rightNav}>
           {!hasProvider &&
             <a href="https://metamask.io" target="_blank">

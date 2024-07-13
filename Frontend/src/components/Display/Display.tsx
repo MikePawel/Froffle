@@ -18,7 +18,7 @@ export const Display = () => {
         </>
       }
       <Link to="/test">Go to testpage</Link>
-      <Link to="/archievements">Go to archievements page</Link>
+      <Link to="/achievements">Go to achievements page</Link>
     </div>
   )
 }
