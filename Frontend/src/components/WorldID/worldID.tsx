@@ -102,14 +102,14 @@ export default function worldID() {
                   elevation={10}
                   variant="elevation"
                   sx={{
-                    width: 300,
-                    height: 200,
+                    width: 200,
+                    height: 100,
                     borderRadius: 3,
                     padding: "10px",
                     textAlign: "center",
                   }}
                 >
-                  <Typography variant="h5" component="div">
+                  <Typography component="div">
                     You did not verify that you are a human yet!
                     <IDKitWidget
                       app_id={worldAppID}
@@ -122,7 +122,7 @@ export default function worldID() {
                       enableTelemetry
                     >
                       {({ open }) => (
-                        <button onClick={open}>Verify with World ID</button>
+                        <Button onClick={open}>Verify with World ID</Button>
                       )}
                     </IDKitWidget>
                   </Typography>
