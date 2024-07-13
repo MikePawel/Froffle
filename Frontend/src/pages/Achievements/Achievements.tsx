@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { abi } from "./../../components/ContractReader/contractABI";
+import WorldID from "./../../components/WorldID/worldID";
 
 type Stats = any;
 
@@ -153,9 +154,9 @@ const tracks: Record<string, Track> = {
   },
   isHuman: {
     colors: {
-      rim: '#FFB596',
-      ribbon: ['#F86E42', '#F25837'],
-      gradient: ['#FF7D61', '#FAF2ED'],
+      rim: "#FFB596",
+      ribbon: ["#F86E42", "#F25837"],
+      gradient: ["#FF7D61", "#FAF2ED"],
     },
     achievements: [
       {
@@ -192,11 +193,8 @@ async function pushDataToBlockchain(
     maxFeePerGas: gasPrice.mul(2), // set max fee per gas as twice the current gas price
     maxPriorityFeePerGas: gasPrice.div(2), // set max priority fee per gas as half the current gas price
   };
-  if (id == "WorldID") {
-  } else {
-    const result = await signer.storeData(address, id, value);
-    console.log("Data stored to blockchain: ", result);
-  }
+  const result = await signer.storeData(address, id, value);
+  console.log("Data stored to blockchain: ", result);
 }
 
 export default function Achievements() {
@@ -265,6 +263,7 @@ export default function Achievements() {
                 })
                 .flat()}
           </div>
+          <WorldID />
           <Link to="/"> Go Home </Link>
         </>
       )}
