@@ -7,6 +7,7 @@ export const Display = () => {
     <div className="Display">
       <Link to="/wlc">Go WalletConnect</Link>
       <Link to="/test">Go to testpage</Link>
+      <Link to="/achievements">Go to achievements page</Link>
     </div>
   );
 };
