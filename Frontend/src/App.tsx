@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import Test from "./pages/Test/Test";
 import Achievements from "./pages/Achievements/Achievements";
 import GetScore from "./pages/GetScore/GetScore";
+import Claim from "./pages/Claim/Claim";
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
         <Route path="/" element={<Display />} />
         <Route path="/getScore" element={<GetScore />} />
         <Route path="/achievements" element={<Achievements />} />
+        <Route path="/claim" element={<Claim />}></Route>
       </Routes>
     </div>
   );
