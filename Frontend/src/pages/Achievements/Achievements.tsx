@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Achievements.css'
 import { Link } from 'react-router-dom'
 import { CircularProgress } from '@mui/material'
 import Badge from '~/components/Badge/Badge'
 import { useQuery } from 'react-query'
 import { useAccount } from 'wagmi'
+import { ethers } from 'ethers'
+import { abi } from './../../components/ContractReader/contractABI'
 
 type Stats = any;
 
@@ -27,7 +29,7 @@ type Achievement = {
 const statsQueryFn = async (account_id?: string) => {
   account_id = '0xd3d2E2692501A5c9Ca623199D38826e513033a17'
 
-  const API_KEY = "52ECZ5CD35TX4QQU7A2BQW65P8EM85IXWK"
+  const API_KEY = import.meta.env.VITE_ES_API_KEY
 
   if (!account_id) return Promise.reject()
 
@@ -131,11 +133,60 @@ const tracks: Record<string, Track> = {
       },
     ],
   },
+  isHuman: {
+    colors: {
+      rim: '#FF9696',
+      ribbon: ['#F84242', '#F23737'],
+      gradient: ['#FF6161', '#FAEDED'],
+    },
+    achievements: [
+      {
+        icon: 'man',
+        description: 'Verified that you are a human',
+        done: (stats: Stats) => Object.keys(stats[0].items).length > 5,
+        progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 1`,
+      },
+    ],
+  },
+}
+
+async function pushDataToBlockchain() {
+  const PRIVATE_KEY = import.meta.env.VITE_PRIVATE_KEY
+  const INFURA_API_KEY = import.meta.env.VITE_INFURA_API_KEY
+  const provider = new ethers.providers.JsonRpcProvider(
+    `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+  )
+  const walletM = new ethers.Wallet(PRIVATE_KEY, provider)
+  const contract = new ethers.Contract(
+    '0x4F8757c55FCdf2Bc7834dF7134BFB0906cfFc35A',
+    abi,
+    provider,
+  )
+  const signer = contract.connect(walletM)
+
+  const gasPrice = await provider.getGasPrice()
+  const overrides = {
+    maxFeePerGas: gasPrice.mul(2), // set max fee per gas as twice the current gas price
+    maxPriorityFeePerGas: gasPrice.div(2), // set max priority fee per gas as half the current gas price
+  }
+
+  const result = await signer.storeData(
+    '0x889befc77295680009ea41ecf3aa676bd7a8ad9b',
+    'WorldID',
+    0,
+  )
+  console.log('Data stored to blockchain: ', result)
 }
 
 export default function Achievements() {
   const { address } = useAccount()
-  const statsQuery = useQuery({ queryFn: () => statsQueryFn(address), queryKey: ['stats-query'] }) 
+  const statsQuery = useQuery({
+    queryFn: () => statsQueryFn(address),
+    queryKey: ['stats-query'],
+  })
+  useEffect(() => {
+    console.log('done')
+  }, [])
 
   return (
     <div className="achievements-page">
@@ -173,14 +224,21 @@ export default function Achievements() {
                           {a.icon}
                         </span>
                       </Badge>
-                      <strong className="progress">{a.progress(statsQuery.data)}</strong>
+                      <strong className="progress">
+                        {a.progress(statsQuery.data)}
+                      </strong>
                       <div className="description">{a.description}</div>
                     </div>
                   ))
-                }).flat()
-            }
+                })
+                .flat()}
           </div>
           <Link to="/"> Go Home </Link>
+          <button onClick={() => pushDataToBlockchain()}>
+            {' '}
+            push to blockchain
+          </button>
+          {/* <button onClick={() => console.log(abi)}> log abi</button> */}
         </>
       )}
     </div>
