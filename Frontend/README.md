@@ -12,7 +12,7 @@ To deploy the smart contract to Sepolia use:
         npx hardhat run scripts/deployParticipants.js --network sepolia
 ```
 
-To verify it use
+To verify it use it
 
 ```
 npx hardhat verify --network mumbai <smart_contract_address> 
