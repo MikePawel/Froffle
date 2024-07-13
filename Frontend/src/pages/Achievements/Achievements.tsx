@@ -1,6 +1,6 @@
 import { CircularProgress } from '@mui/material'
 import { ethers } from 'ethers'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { useAccount } from 'wagmi'
@@ -64,13 +64,14 @@ const tracks: Record<string, Track> = {
         description: 'Hold 1 or more fungible tokens',
         done: (stats: Stats) => Object.keys(stats[0].items).length > 1,
         progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 1`,
+        data: (stats: Stats) => ['holding_fts', Object.keys(stats[0].items).length],
       },
       {
         icon: 'counter_5',
         description: 'Hold 5 or more fungible tokens',
         done: (stats: Stats) => Object.keys(stats[0].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 5`,
-        data: (stats: Stats) => ['WorldID', 0],
+        data: (stats: Stats) => ['holding_fts', Object.keys(stats[0].items).length],
       },
     ],
   },
@@ -86,7 +87,7 @@ const tracks: Record<string, Track> = {
         description: 'Hold 5 or more NFTs',
         done: (stats: Stats) => Object.keys(stats[1].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[1].items).length} / 5`,
-        data: (stats: Stats) => ['WorldID', 0],
+        data: (stats: Stats) => ['holding_nfts', Object.keys(stats[1].items).length],
       },
       {
         icon: 'timer_10',
@@ -94,7 +95,7 @@ const tracks: Record<string, Track> = {
         done: (stats: Stats) => Object.keys(stats[1].items).length > 10,
         progress: (stats: Stats) =>
           `${Object.keys(stats[1].items).length} / 10`,
-        data: (stats: Stats) => ['WorldID', 0],
+        data: (stats: Stats) => ['holding_nfts', Object.keys(stats[1].items).length],
       },
     ],
   },
@@ -110,14 +111,14 @@ const tracks: Record<string, Track> = {
         description: 'Send 1.000 transactions',
         done: (stats: Stats) => stats[2].transactions_count > 1000,
         progress: (stats: Stats) => `${stats[2].transactions_count} / 1k`,
-        data: (stats: Stats) => ['WorldID', 0],
+        data: (stats: Stats) => ['txs_sent', stats[2].transactions_count],
       },
       {
         icon: '10k',
         description: 'Send 10.000 transactions',
         done: (stats: Stats) => stats[2].transactions_count > 10000,
         progress: (stats: Stats) => `${stats[2].transactions_count} / 10k`,
-        data: (stats: Stats) => ['WorldID', 0],
+        data: (stats: Stats) => ['txs_sent', stats[2].transactions_count],
       },
     ],
   },
@@ -138,6 +139,7 @@ const tracks: Record<string, Track> = {
           `Wallet created: ${new Date(
             stats[3].result[0].timeStamp * 1000,
           ).toLocaleDateString()}`,
+        data: (stats: Stats) => ['age', stats[3].result[0].timeStamp - Date.now()],
       },
       {
         icon: 'coronavirus',
@@ -149,10 +151,11 @@ const tracks: Record<string, Track> = {
           `Wallet created: ${new Date(
             stats[3].result[0].timeStamp * 1000,
           ).toLocaleDateString()}`,
+        data: (stats: Stats) => ['age', stats[3].result[0].timeStamp - Date.now()],
       },
     ],
   },
-  isHuman: {
+  is_human: {
     colors: {
       rim: '#FFB596',
       ribbon: ['#F86E42', '#F25837'],
@@ -164,7 +167,7 @@ const tracks: Record<string, Track> = {
         description: 'Verified that you are a human',
         done: (stats: Stats) => Object.keys(stats[0].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 1`,
-        data: (stats: Stats) => ['WorldID', 0],
+        data: (stats: Stats) => ['is_human', 1],
       },
     ],
   },
@@ -195,9 +198,12 @@ async function pushDataToBlockchain(
   }
   const result = await signer.storeData(address, id, value)
   console.log('Data stored to blockchain: ', result)
+  return `https://eth-sepolia.blockscout.com/tx/${result.hash}`
 }
 
 export default function Achievements() {
+  const [loading, setLoading] = useState(false);
+  const [link, setLink] = useState(null);
   const { address } = useAccount()
   const statsQuery = useQuery({
     queryFn: () => statsQueryFn(address),
@@ -250,16 +256,42 @@ export default function Achievements() {
                       <div className="description">{a.description}</div>
                       <div className="pane"></div>
                       <button
-                        onClick={() =>
+                        onClick={() => {
+                          if (!!link) {
+                            window.open(link, '_blank')!.focus(); 
+                            return
+                          }
+                          setLoading(true);
                           pushDataToBlockchain(
                             address,
                             ...a.data(statsQuery.data),
-                          )
-                        }
+                          ).then(res => {
+                            setLoading(false);
+                            setLink(res);
+                          })
+                        }}
                       >
-                        <span className="material-symbols-outlined">
-                          publish
-                        </span> push to blockchain
+                        { !link && !loading &&
+                          <div className="button">
+                            <span className="material-symbols-outlined">
+                              publish
+                            </span>
+                            <p>push to blockchain</p>
+                          </div>
+                        }
+                        { !!link && !loading &&
+                          <div className="button">
+                            <span className="material-symbols-outlined">
+                              open_in_new
+                            </span>
+                            <p>view transaction</p>
+                          </div>
+                        }
+                        { loading &&
+                          <div className="button">
+                            <CircularProgress />
+                          </div>
+                        }
                       </button>
                     </div>
                   ))

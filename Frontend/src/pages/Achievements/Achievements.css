@@ -40,9 +40,18 @@
     margin-bottom: 20px;
     width: 180px;
     z-index: 2;
+}
+
+.achievement-infos .button {
     display: flex;
     flex-flow: row nowrap;
     gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.achievement-infos .button p {
+    margin: 0;
 }
 
 .achievement-infos button span {
