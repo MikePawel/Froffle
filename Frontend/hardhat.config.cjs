@@ -1,3 +1,4 @@
+
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require('dotenv').config();
@@ -15,5 +16,23 @@ module.exports = {
   etherscan: {
    // apiKey: ETHERSCAN_API_KEY,
   },
-};
-
+  etherscan: {
+    apiKey: {
+      // Is not required by blockscout. Can be any non-empty string
+      sepolia: "abc"
+    },
+    customChains: [
+      {
+        network: "sepolia",
+        chainId: 11155111,
+        urls: {
+          apiURL: "https://eth-sepolia.blockscout.com/api",
+          browserURL: "https://eth-sepolia.blockscout.com/",
+        }
+      }
+    ]
+  },
+  sourcify: {
+    enabled: false
+  }
+}; 
