@@ -16,7 +16,7 @@ export const App = () => {
         <Route path="/test" element={<Test />} />
         <Route path="/" element={<Display />} />
         <Route path="/getScore" element={<GetScore />} />
-        <Route path="/achievements" element={<Achievements />} />
+        {/* <Route path="/achievements" element={<Achievements />} /> */}
       </Routes>
     </div>
   );
