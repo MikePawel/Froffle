@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ethers } from "ethers";
 import { useAccount } from "wagmi";
 import { abi } from "./abi";
+import style from "./Claim.module.css";
 
 const Claim: React.FC = () => {
   const account = useAccount();
@@ -42,17 +43,21 @@ const Claim: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={style.main_div}>
+      <div>Select Airdrop Network</div>
       <select id="network-select">
         <option value="16015286601757825753">Sepolia testnet</option>
         <option value="3478487238524512106">Arbitrum Sepolia testnet</option>
         <option value="10344971235874465080">Base Sepolia testnet</option>
         <option value="5224473277236331295">Optimism Sepolia testnet</option>
       </select>
+      <br />
 
       <button id="claim-button" onClick={claim}>
         Claim
       </button>
+      <br />
+      <div id="message"></div>
     </div>
   );
 };
