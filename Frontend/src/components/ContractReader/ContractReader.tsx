@@ -1,17 +1,20 @@
-import { useReadContract } from "wagmi";
+// ContractReader.tsx
+import { useReadContract, useWriteContract } from "wagmi";
 import { abi } from "./contractABI";
+import { useAccount } from "wagmi";
 
 const contractAddress = "0x4F8757c55FCdf2Bc7834dF7134BFB0906cfFc35A";
 
-function ContractReader(args: [string, string]) {
+export function getScore(content: string) {
+  const { address } = useAccount();
+
+  const formatted_address = address || "0x";
+
   const result = useReadContract({
     abi: abi,
     address: contractAddress,
     functionName: "retrieveData",
-    args: args,
+    args: [formatted_address, content],
   });
-  console.log("contract result:", result?.data);
-  return <div>{result?.data?.toString()}</div>;
+  return result;
 }
-
-export default ContractReader;

@@ -6,9 +6,6 @@ export const Display = () => {
   return (
     <div className="Display">
       <li>
-        <Link to="/wlc">Go WalletConnect</Link>
-      </li>
-      <li>
         <Link to="/test">Go to testpage</Link>
       </li>
       <li>
