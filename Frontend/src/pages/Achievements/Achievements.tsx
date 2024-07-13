@@ -13,9 +13,9 @@ type Track = {
     rim: string;
     ribbon: string[];
     gradient: string[];
-  },
+  };
   achievements: Achievement[];
-}
+};
 
 type Achievement = {
   icon: string;
@@ -23,24 +23,28 @@ type Achievement = {
   track: string;
   done: (stats: Stats) => boolean;
   progress: (stats: Stats) => string;
-}
+};
 
 const statsQueryFn = async (account_id?: string) => {
   account_id = '0x889befc77295680009ea41ecf3aa676bd7a8ad9b'
 
-  if (!account_id)
-    return Promise.reject()
+  if (!account_id) return Promise.reject()
 
   return await Promise.all([
-    fetch(`https://eth.blockscout.com/api/v2/addresses/${account_id}/tokens?type=ERC-20`),
-    fetch(`https://eth.blockscout.com/api/v2/addresses/${account_id}/tokens?type=ERC-721`),
+    fetch(
+      `https://eth.blockscout.com/api/v2/addresses/${account_id}/tokens?type=ERC-20`,
+    ),
+    fetch(
+      `https://eth.blockscout.com/api/v2/addresses/${account_id}/tokens?type=ERC-721`,
+    ),
     fetch(`https://eth.blockscout.com/api/v2/addresses/${account_id}/counters`),
-  ])
-    .then(responses => Promise.all(responses.map(response => response.json())))    
+  ]).then((responses) =>
+    Promise.all(responses.map((response) => response.json())),
+  )
 }
 
 const tracks: Record<string, Track> = {
-  'holding_fts': {
+  holding_fts: {
     colors: {
       rim: '#FF9696',
       ribbon: ['#F84242', '#F23737'],
@@ -56,7 +60,7 @@ const tracks: Record<string, Track> = {
       },
     ],
   },
-  'holding_nfts': {
+  holding_nfts: {
     colors: {
       rim: '#9696FF',
       ribbon: ['#4242F8', '#3737F2'],
@@ -75,11 +79,12 @@ const tracks: Record<string, Track> = {
         description: 'Hold 10 or more NFTs',
         track: 'txs_sent',
         done: (stats: Stats) => Object.keys(stats[1].items).length > 10,
-        progress: (stats: Stats) => `${Object.keys(stats[1].items).length} / 10`,
+        progress: (stats: Stats) =>
+          `${Object.keys(stats[1].items).length} / 10`,
       },
     ],
   },
-  'txs_sent': {
+  txs_sent: {
     colors: {
       rim: '#96FF96',
       ribbon: ['#42F842', '#37F237'],
@@ -115,33 +120,40 @@ export default function Achievements() {
           <div className="title">Your Achievements</div>
           <div className="achievements-container">
             {statsQuery.status === 'loading' && <CircularProgress />}
-            {statsQuery.status === 'error' && <p>{'Something went wrong :('}</p>}
-            {statsQuery.status === 'success' && 
-              Object.values(tracks).map((t: Track, i) => {
-                const as = []
-               
-                for (const a of t.achievements) {
-                  as.push(a)
-                  if (!a.done(statsQuery.data))
-                    break
-                }
+            {statsQuery.status === 'error' && (
+              <p>{'Something went wrong :('}</p>
+            )}
+            {statsQuery.status === 'success' &&
+              Object.values(tracks)
+                .map((t: Track, i) => {
+                  const as = []
 
-                return as.map((a, j) => (
-                  <div className="achievement-infos" key={i.toString() + '_' + j.toString()}>
-                    <Badge
-                      className={`achievement ${a.done(statsQuery.data) ? '' : 'grayscale'}`}
-                      id={i.toString()}
-                      colors={t.colors}
+                  for (const a of t.achievements) {
+                    as.push(a)
+                    if (!a.done(statsQuery.data)) break
+                  }
+
+                  return as.map((a, j) => (
+                    <div
+                      className="achievement-infos"
+                      key={i.toString() + '_' + j.toString()}
                     >
-                      <span className="material-symbols-outlined achievement-icon">
-                        {a.icon}
-                      </span>
-                    </Badge>
-                    <strong className="progress">{a.progress(statsQuery.data)}</strong>
-                    <div className="description">{a.description}</div>
-                  </div>
-                ))
-              }).flat()
+                      <Badge
+                        className={`achievement ${
+                          a.done(statsQuery.data) ? '' : 'grayscale'
+                        }`}
+                        id={i.toString()}
+                        colors={t.colors}
+                      >
+                        <span className="material-symbols-outlined achievement-icon">
+                          {a.icon}
+                        </span>
+                      </Badge>
+                      <strong className="progress">{a.progress(statsQuery.data)}</strong>
+                      <div className="description">{a.description}</div>
+                    </div>
+                  ))
+                }).flat()
             }
           </div>
           <Link to="/"> Go Home </Link>
