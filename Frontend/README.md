@@ -8,7 +8,8 @@ To deploy the smart contract to Sepolia use:
 
 ```
         npx hardhat compile
-        npx hardhat run scripts/deploy.js --network sepolia
+        npx hardhat run scripts/deployStore.js --network sepolia
+        npx hardhat run scripts/deployParticipants.js --network sepolia
 ```
 
 To verify it use
