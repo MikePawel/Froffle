@@ -25,6 +25,7 @@ type Achievement = {
   track: string;
   done: (stats: Stats) => boolean;
   progress: (stats: Stats) => string;
+  data: (stats: Stats) => [string, number];
 };
 
 const statsQueryFn = async (account_id?: string) => {
@@ -59,6 +60,7 @@ const tracks: Record<string, Track> = {
         track: "holding_fts",
         done: (stats: Stats) => Object.keys(stats[0].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 5`,
+        data: (stats: Stats) => ["WorldID", 0],
       },
     ],
   },
@@ -75,6 +77,7 @@ const tracks: Record<string, Track> = {
         track: "txs_sent",
         done: (stats: Stats) => Object.keys(stats[1].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[1].items).length} / 5`,
+        data: (stats: Stats) => ["WorldID", 0],
       },
       {
         icon: "timer_10",
@@ -83,6 +86,7 @@ const tracks: Record<string, Track> = {
         done: (stats: Stats) => Object.keys(stats[1].items).length > 10,
         progress: (stats: Stats) =>
           `${Object.keys(stats[1].items).length} / 10`,
+        data: (stats: Stats) => ["WorldID", 0],
       },
     ],
   },
@@ -99,6 +103,7 @@ const tracks: Record<string, Track> = {
         track: "txs_sent",
         done: (stats: Stats) => stats[2].transactions_count > 1000,
         progress: (stats: Stats) => `${stats[2].transactions_count} / 1k`,
+        data: (stats: Stats) => ["WorldID", 0],
       },
       {
         icon: "10k",
@@ -106,6 +111,7 @@ const tracks: Record<string, Track> = {
         track: "txs_sent",
         done: (stats: Stats) => stats[2].transactions_count > 10000,
         progress: (stats: Stats) => `${stats[2].transactions_count} / 10k`,
+        data: (stats: Stats) => ["WorldID", 0],
       },
     ],
   },
@@ -122,12 +128,17 @@ const tracks: Record<string, Track> = {
         track: "ishuman",
         done: (stats: Stats) => Object.keys(stats[0].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 1`,
+        data: (stats: Stats) => ["WorldID", 0],
       },
     ],
   },
 };
 
-async function pushDataToBlockchain() {
+async function pushDataToBlockchain(
+  address: string,
+  id: string,
+  value: number
+) {
   const PRIVATE_KEY = import.meta.env.VITE_PRIVATE_KEY;
   const INFURA_API_KEY = import.meta.env.VITE_INFURA_API_KEY;
   const provider = new ethers.providers.JsonRpcProvider(
@@ -146,13 +157,11 @@ async function pushDataToBlockchain() {
     maxFeePerGas: gasPrice.mul(2), // set max fee per gas as twice the current gas price
     maxPriorityFeePerGas: gasPrice.div(2), // set max priority fee per gas as half the current gas price
   };
-
-  const result = await signer.storeData(
-    "0x889befc77295680009ea41ecf3aa676bd7a8ad9b",
-    "WorldID",
-    0
-  );
-  console.log("Data stored to blockchain: ", result);
+  if (id == "WorldID") {
+  } else {
+    const result = await signer.storeData(address, id, value);
+    console.log("Data stored to blockchain: ", result);
+  }
 }
 
 export default function Achievements() {
@@ -205,17 +214,23 @@ export default function Achievements() {
                         {a.progress(statsQuery.data)}
                       </strong>
                       <div className="description">{a.description}</div>
+                      <button
+                        onClick={() =>
+                          pushDataToBlockchain(
+                            address,
+                            ...a.data(statsQuery.data)
+                          )
+                        }
+                      >
+                        {" "}
+                        push to blockchain
+                      </button>
                     </div>
                   ));
                 })
                 .flat()}
           </div>
           <Link to="/"> Go Home </Link>
-          <button onClick={() => pushDataToBlockchain()}>
-            {" "}
-            push to blockchain
-          </button>
-          {/* <button onClick={() => console.log(abi)}> log abi</button> */}
         </>
       )}
     </div>
