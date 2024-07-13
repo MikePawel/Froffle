@@ -11,7 +11,7 @@ const Claim: React.FC = () => {
 
   const claim = async () => {
     console.log("claim");
-    const contractAddress = "0xdB11B05991d6F2c28412E2a4486C3b2286EC74D0"; // Update with your contract address
+    const contractAddress = "0xa50B037C7F3b91626A31aB9D72297db44171B42e"; // Update with your contract address
 
     const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
@@ -25,8 +25,13 @@ const Claim: React.FC = () => {
     const selectedNetworkElement = document.getElementById(
       "network-select"
     ) as HTMLSelectElement;
+
+    const messageElement = document.getElementById(
+      "message"
+    ) as HTMLSelectElement;
+
     const selectedNetworkValue = selectedNetworkElement?.value;
-    console.log("Selected Network Value:", selectedNetworkValue);
+    console.log("Selected :", messageElement);
 
     if (!selectedNetworkValue) {
       alert("Please select a network");
@@ -35,10 +40,19 @@ const Claim: React.FC = () => {
 
     try {
       const tx = await subContract.transferusdcToSepolia(selectedNetworkValue);
-      console.log("Mint transaction: ", tx);
+      console.log(tx);
+      messageElement.textContent = "Claim successful";
+      messageElement.style.color = "green";
+      messageElement.style.display = "block"; // Show the message
     } catch (error: any) {
-      console.error("Transaction error: ", error);
-      console.log("Error data:", error.data);
+      console.error("Error:", (error as Error).message);
+      if ((error as Error).message.includes("Not eligible to claim")) {
+        messageElement.textContent = "Not eligible to claim.";
+      } else {
+        messageElement.textContent = "An error occurred.";
+      }
+      messageElement.style.color = "red";
+      messageElement.style.display = "block"; // Show the message
     }
   };
 
