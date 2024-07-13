@@ -49,8 +49,12 @@
     font-size: 2em;
 }
 
-.achievement-infos:hover button {
+.achievement-infos[data-disabled="false"]:hover button {
     opacity: 1;
+}
+
+.achievement-infos[data-disabled="true"] button {
+    display: none;
 }
 
 .achievement-infos .pane {
@@ -66,7 +70,7 @@
     background: linear-gradient(#00000000, #000000ff);
 }
 
-.achievement-infos:hover .pane {
+.achievement-infos[data-disabled="false"]:hover .pane {
     opacity: 1;
 }
 

@@ -230,6 +230,7 @@ export default function Achievements() {
                   return as.map((a, j) => (
                     <div
                       className="achievement-infos"
+                      data-disabled={!a.done(statsQuery.data)}
                       key={i.toString() + '_' + j.toString()}
                     >
                       <Badge
