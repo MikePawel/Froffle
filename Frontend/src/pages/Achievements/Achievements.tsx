@@ -151,12 +151,6 @@ async function pushDataToBlockchain(
     provider
   );
   const signer = contract.connect(walletM);
-
-  const gasPrice = await provider.getGasPrice();
-  const overrides = {
-    maxFeePerGas: gasPrice.mul(2), // set max fee per gas as twice the current gas price
-    maxPriorityFeePerGas: gasPrice.div(2), // set max priority fee per gas as half the current gas price
-  };
   if (id == "WorldID") {
   } else {
     const result = await signer.storeData(address, id, value);
