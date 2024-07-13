@@ -150,9 +150,9 @@ async function pushDataToBlockchain() {
   const result = await signer.storeData(
     "0x889befc77295680009ea41ecf3aa676bd7a8ad9b",
     "WorldID",
-    1
+    0
   );
-  console.log("Campaign created: ", result);
+  console.log("Data stored to blockchain: ", result);
 }
 
 export default function Achievements() {
