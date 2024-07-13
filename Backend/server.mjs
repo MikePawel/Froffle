@@ -25,12 +25,12 @@ app.post("/verify", async (req, res) => {
     var timestampInSeconds = Math.floor(timestamp / 1000);
     console.log(timestampInSeconds);
 
-    if (
-      reqBody.signal < timestampInSeconds - 300 &&
-      reqBody.signal < timestampInSeconds
-    ) {
-      throw new Error("The signal is onlder than 5 minute");
-    }
+    // if (
+    //   reqBody.signal < timestampInSeconds - 300 &&
+    //   reqBody.signal < timestampInSeconds
+    // ) {
+    //   throw new Error("The signal is onlder than 5 minute");
+    // }
     // console.log('Received verification request:', reqBody);
 
     // Send the verification request to the World ID API

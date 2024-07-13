@@ -1,15 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { App } from './App'
-import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { BrowserRouter } from 'react-router-dom'
+import { App } from './App'
+import { Web3ModalProvider } from './components/WalletConnect/Web3ModalProvider'
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={new QueryClient()}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Web3ModalProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Web3ModalProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 )

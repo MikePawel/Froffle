@@ -1,24 +1,22 @@
-import { useMetaMask } from '~/hooks/useMetaMask'
-import { formatChainAsNum } from '~/utils'
-import styles from './Display.module.css'
-import { Link } from "react-router-dom"
+import styles from "./Display.module.css";
+import { Link } from "react-router-dom";
+import { useAccount } from "wagmi";
 
 export const Display = () => {
-
-  const { wallet } = useMetaMask()
-
   return (
-    <div className={styles.display}>
-      {wallet.accounts.length > 0 &&
-        <>
-          <div>Wallet Accounts: {wallet.accounts[0]}</div>
-          <div>Wallet Balance: {wallet.balance}</div>
-          <div>Hex ChainId: {wallet.chainId}</div>
-          <div>Numeric ChainId: {formatChainAsNum(wallet.chainId)}</div>
-        </>
-      }
-      <Link to="/test">Go to testpage</Link>
-      <Link to="/achievements">Go to achievements page</Link>
+    <div className="Display">
+      <li>
+        <Link to="/wlc">Go WalletConnect</Link>
+      </li>
+      <li>
+        <Link to="/test">Go to testpage</Link>
+      </li>
+      <li>
+        <Link to="/achievements">Go to achievements page</Link>
+      </li>
+      <li>
+        <Link to="/getScore">Go to getScore page</Link>
+      </li>
     </div>
-  )
-}
+  );
+};

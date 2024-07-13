@@ -8,16 +8,17 @@ To deploy the smart contract to Sepolia use:
 
 ```
         npx hardhat compile
-        npx hardhat run scripts/deploy.js --network sepolia
+        npx hardhat run scripts/deployStore.js --network sepolia
+        npx hardhat run scripts/deployParticipants.js --network sepolia
 ```
 
-To verify it use
+To verify it use it
 
 ```
-npx hardhat verify --network mumbai <smart_contract_address>
+npx hardhat verify --network mumbai <smart_contract_address> 
 ```
 
-## How to deploy and run locally
+## How to deploy and run locally 
 
 - Clone the repo:
 ```
