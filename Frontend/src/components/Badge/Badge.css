@@ -1,0 +1,24 @@
+.badge-wrapper {
+    position: relative;
+}
+
+.badge-content {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+}
+
+.badge-content span {
+    font-size: 50px;
+}
+
+.badge-wrapper svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.5);
+}

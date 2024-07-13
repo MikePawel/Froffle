@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useMetaMask } from "~/hooks/useMetaMask";
 import {
   Button,
   CircularProgress,
