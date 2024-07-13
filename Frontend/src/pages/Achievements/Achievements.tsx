@@ -20,13 +20,14 @@ type Track = {
 type Achievement = {
   icon: string;
   description: string;
-  track: string;
   done: (stats: Stats) => boolean;
   progress: (stats: Stats) => string;
 };
 
 const statsQueryFn = async (account_id?: string) => {
-  account_id = '0x889befc77295680009ea41ecf3aa676bd7a8ad9b'
+  account_id = '0xd3d2E2692501A5c9Ca623199D38826e513033a17'
+
+  const API_KEY = "52ECZ5CD35TX4QQU7A2BQW65P8EM85IXWK"
 
   if (!account_id) return Promise.reject()
 
@@ -38,6 +39,7 @@ const statsQueryFn = async (account_id?: string) => {
       `https://eth.blockscout.com/api/v2/addresses/${account_id}/tokens?type=ERC-721`,
     ),
     fetch(`https://eth.blockscout.com/api/v2/addresses/${account_id}/counters`),
+    fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${account_id}&startblock=0&endblock=99999999&page=1&offset=1&sort=asc&apikey=${API_KEY}`),
   ]).then((responses) =>
     Promise.all(responses.map((response) => response.json())),
   )
@@ -52,9 +54,14 @@ const tracks: Record<string, Track> = {
     },
     achievements: [
       {
+        icon: 'counter_1',
+        description: 'Hold 1 or more fungible tokens',
+        done: (stats: Stats) => Object.keys(stats[0].items).length > 1,
+        progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 1`,
+      },
+      {
         icon: 'counter_5',
         description: 'Hold 5 or more fungible tokens',
-        track: 'holding_fts',
         done: (stats: Stats) => Object.keys(stats[0].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[0].items).length} / 5`,
       },
@@ -70,14 +77,12 @@ const tracks: Record<string, Track> = {
       {
         icon: 'timer_5_shutter',
         description: 'Hold 5 or more NFTs',
-        track: 'txs_sent',
         done: (stats: Stats) => Object.keys(stats[1].items).length > 5,
         progress: (stats: Stats) => `${Object.keys(stats[1].items).length} / 5`,
       },
       {
         icon: 'timer_10',
         description: 'Hold 10 or more NFTs',
-        track: 'txs_sent',
         done: (stats: Stats) => Object.keys(stats[1].items).length > 10,
         progress: (stats: Stats) =>
           `${Object.keys(stats[1].items).length} / 10`,
@@ -94,16 +99,35 @@ const tracks: Record<string, Track> = {
       {
         icon: '1k',
         description: 'Send 1.000 transactions',
-        track: 'txs_sent',
         done: (stats: Stats) => stats[2].transactions_count > 1000,
         progress: (stats: Stats) => `${stats[2].transactions_count} / 1k`,
       },
       {
         icon: '10k',
         description: 'Send 10.000 transactions',
-        track: 'txs_sent',
         done: (stats: Stats) => stats[2].transactions_count > 10000,
         progress: (stats: Stats) => `${stats[2].transactions_count} / 10k`,
+      },
+    ],
+  },
+  age: {
+    colors: {
+      rim: '#FF96FB',
+      ribbon: ['#DE42F8', '#B637F2'],
+      gradient: ['#FF61EF', '#FAEDF7'],
+    },
+    achievements: [
+      {
+        icon: 'fork_right',
+        description: 'Been around when Ethereum switched to POS.',
+        done: (stats: Stats) => new Date(stats[3].result[0].timeStamp * 1000) <= new Date('2022-09-15'),
+        progress: (stats: Stats) => `Wallet created: ${new Date(stats[3].result[0].timeStamp * 1000).toLocaleDateString()}`,
+      },
+      {
+        icon: 'coronavirus',
+        description: 'Been around when covid was a thing',
+        done: (stats: Stats) => new Date(stats[3].result[0].timeStamp * 1000) <= new Date('2022-01-01'),
+        progress: (stats: Stats) => `Wallet created: ${new Date(stats[3].result[0].timeStamp * 1000).toLocaleDateString()}`,
       },
     ],
   },
