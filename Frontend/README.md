@@ -15,10 +15,10 @@ To deploy the smart contract to Sepolia use:
 To verify it use
 
 ```
-npx hardhat verify --network mumbai <smart_contract_address>
+npx hardhat verify --network mumbai <smart_contract_address> 
 ```
 
-## How to deploy and run locally
+## How to deploy and run locally 
 
 - Clone the repo:
 ```
