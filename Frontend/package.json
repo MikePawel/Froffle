@@ -11,12 +11,15 @@
     "lint:fix": "npm run lint --fix"
   },
   "dependencies": {
+    "@chainlink/contracts": "^1.1.1",
+    "@chainlink/contracts-ccip": "^1.4.0",
+    "@chainlink/hardhat-chainlink": "^0.0.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@metamask/detect-provider": "^2.0.0",
     "@mui/material": "^5.16.1",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
-    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts": "^5.0.2",
     "@tanstack/react-query": "^5.51.1",
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/types": "^2.13.3",
