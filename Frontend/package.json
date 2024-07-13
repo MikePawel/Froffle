@@ -19,17 +19,12 @@
     "@metamask/detect-provider": "^2.0.0",
     "@mui/material": "^5.16.1",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
-<<<<<<< HEAD
     "@openzeppelin/contracts": "^5.0.1",
     "@tanstack/react-query": "^5.51.1",
     "@types/react-query": "^1.2.9",
-=======
-    "@openzeppelin/contracts": "^5.0.2",
-    "@tanstack/react-query": "^5.51.1",
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/types": "^2.13.3",
     "@web3modal/wagmi": "^5.0.6",
->>>>>>> fbc038854f69d714cd4b6bfe81ca0cbe839d5ad5
     "@worldcoin/idkit": "^1.2.2",
     "axios": "^1.6.7",
     "dotenv": "^16.4.5",
