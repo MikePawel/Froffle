@@ -20,25 +20,80 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px;
+    padding-bottom: 20px;
 }
 
 .grayscale {
     filter: grayscale();
 }
 
+.achievement-infos button {
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 24px;
+    opacity: 0;
+    transition: all 400ms ease;
+    margin-bottom: 20px;
+    width: 180px;
+    z-index: 2;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 5px;
+}
+
+.achievement-infos button span {
+    font-size: 2em;
+}
+
+.achievement-infos:hover button {
+    opacity: 1;
+}
+
+.achievement-infos .pane {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    opacity: 0;
+    transition: all 400ms ease;
+    background: linear-gradient(#00000000, #000000ff);
+}
+
+.achievement-infos:hover .pane {
+    opacity: 1;
+}
+
+
 .achievement-infos {
+    position: relative;
+    width: 200px;
+    height: 330px;
+    padding: 10px;
     display: flex;
     flex-flow: column nowrap;
-    width: 180px;
+    background-color: #121212;
+    border-radius: 24px;
     align-items: center;
+    transition: all 200ms ease-in-out;
 }
 
 .achievement-infos .description {
     text-align: center;
+    justify-self: flex-end;
 }
 
 .achievement-infos strong {
     text-align: center;
+    justify-self: flex-end;
 }
 
+.achievement-infos:hover {
+    transform: translateY(-10px);
+}
