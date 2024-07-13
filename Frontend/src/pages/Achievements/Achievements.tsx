@@ -141,9 +141,9 @@ const tracks: Record<string, Track> = {
   },
   isHuman: {
     colors: {
-      rim: '#FF9696',
-      ribbon: ['#F84242', '#F23737'],
-      gradient: ['#FF6161', '#FAEDED'],
+      rim: '#FFB596',
+      ribbon: ['#F86E42', '#F25837'],
+      gradient: ['#FF7D61', '#FAF2ED'],
     },
     achievements: [
       {
