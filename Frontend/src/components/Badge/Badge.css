@@ -1,12 +1,13 @@
 .badge-wrapper {
     position: relative;
+
 }
 
 .badge-content {
     position: absolute;
     z-index: 1;
     left: 50%;
-    top: 40%;
+    top: 43%;
     transform: translate(-50%, -50%);
 }
 
@@ -20,5 +21,4 @@
     left: 0;
     width: 100%;
     height: 100%;
-    transform: scale(1.5);
 }
