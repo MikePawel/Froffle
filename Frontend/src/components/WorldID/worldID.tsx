@@ -76,12 +76,12 @@ export default function worldID() {
     }
   };
 
-  //   useEffect(() => {
-  //     console.log("Time in seconds:", currTime);
-  //     console.log(worldAppID);
-  //     setOpen(true);
-  //     timeInSeconds();
-  //   }, []);
+  useEffect(() => {
+    console.log("Time in seconds:", currTime);
+    console.log(worldAppID);
+    setOpen(true);
+    timeInSeconds();
+  }, []);
   return (
     <>
       <div>
